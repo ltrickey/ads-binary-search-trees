@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 import BinarySearchTree from './binary_search_tree';
 
 const dataStructures = [
@@ -76,51 +77,84 @@ dataStructures.forEach(TargetDS => {
     describe('insert', () => {
       it('increases count by 1', () => {
         expect(bst.count()).toBe(0);
-        bst.insert('test');
+        bst.insert(1);
         expect(bst.count()).toBe(1);
 
-        const keys = ['many', 'keys', 'for', 'this', 'tree'];
+        const keys = [2, 3, 4, 5, 6];
         keys.forEach((key, i) => {
           bst.insert(key);
           expect(bst.count()).toBe(2 + i);
         });
       });
 
-      it('replaces records with the same key and does not increase the count', () => {
-        bst.insert('test', 'first value');
-        expect(bst.count()).toBe(1);
-        expect(bst.lookup('test')).toBe('first value');
-
-        bst.insert('test', 'second value');
-        expect(bst.count()).toBe(1);
-        expect(bst.lookup('test')).toBe('second value');
-      });
-
-      it('uses true as the default value', () => {
-        bst.insert('test');
-        expect(bst.lookup('test')).toBe(true);
-      });
+      // it('replaces records with the same key and does not increase the count', () => {
+      //   bst.insert('test', 'first value');
+      //   expect(bst.count()).toBe(1);
+      //   expect(bst.lookup('test')).toBe('first value');
+      //
+      //   bst.insert('test', 'second value');
+      //   expect(bst.count()).toBe(1);
+      //   expect(bst.lookup('test')).toBe('second value');
+      // });
+      //
+      // it('uses true as the default value', () => {
+      //   bst.insert('test');
+      //   expect(bst.lookup('test')).toBe(true);
+      // });
     });
 
     describe('delete', () => {
       it('returns the value for the removed record', () => {
-
+        bst.insert('test', 'first value');
+        bst.insert('4', 'second value');
+        bst.insert('6', 'second value');
+        expect(bst.delete('test')).toBe('first value');
       });
 
       it('returns undefined if the record was not found', () => {
-
+        bst.insert('test', 'first value');
+        expect(bst.delete('not a test')).toBe(undefined);
       });
 
       it('reduces the count by 1', () => {
+        bst.insert('1', 'first value');
+        bst.insert('2', 'second value');
+        bst.insert('4', 'second value');
+        bst.insert('6', 'second value');
 
+        let originalCount = bst.count();
+        bst.delete('2');
+        expect(bst.count()).toBe(originalCount - 1);
       });
 
       it('omits the removed record from iteration results', () => {
+        bst.insert('1', 'first value');
+        bst.insert('2', 'second value');
+        bst.insert('3', 'third value');
+        bst.insert('4', 'four value');
 
+        bst.delete('1');
+
+        expect(bst._root.key).toBe('2');
+        bst.forEach((record, i) => {
+          expect(record.key).not.toBe('1');
+          expect(record.value).not.toBe('first value');
+        });
       });
 
       it('can remove every element in a tree', () => {
+        bst.insert('1', 'first value');
+        bst.insert('2', 'second value');
+        bst.insert('3', 'third value');
+        bst.insert('4', 'four value');
 
+        bst.delete('1');
+        bst.delete('2');
+        bst.delete('3');
+        bst.delete('4');
+
+        expect(bst._root).toBeUndefined();
+        expect(bst.count()).toBe(0);
       });
 
       describe('scenarios', () => {
@@ -133,34 +167,100 @@ dataStructures.forEach(TargetDS => {
           // Insert several records
           // Remove the record with the smallest key
           // Ensure that looking up that key returns undefined
+
+          bst.insert(100, 'first value');
+          bst.insert(20, 'second value');
+          bst.insert(4, 'four value');
+          bst.insert(30, 'third value');
+          bst.insert(40, 'four value');
+
+          bst.delete(4);
+          expect(bst.lookup(4)).toBeUndefined();
         });
 
         it('can remove the record with the largest key', () => {
+          bst.insert(100, 'first value');
+          bst.insert(20, 'second value');
+          bst.insert(4, 'four value');
+          bst.insert(3000, 'third value');
+          bst.insert(40, 'four value');
 
+          bst.delete('3000');
+          expect(bst.lookup('3000')).toBeUndefined();
         });
 
         it('can remove the root', () => {
+          bst.insert(300, 'first value');
+          bst.insert(20, 'second value');
+          bst.insert(4, 'four value');
+          bst.insert(3000, 'third value');
+          bst.insert(400, 'four value');
 
+          bst.delete(bst._root);
+          expect(bst.lookup(300)).toBeUndefined();
+          expect(bst._root.key).toBe(400);
         });
 
         it('can remove a node with no children', () => {
+          bst.insert(100, 'first value');
+          bst.insert(20, 'second value');
+          bst.insert(4, 'four value');
+          bst.insert(40, 'fifth value');
+          bst.insert(3000, 'sixth value');
+          bst.insert(150, 'seventh value');
 
+          bst.delete(4);
+          expect(bst.lookup(4)).toBeUndefined();
         });
 
         it('can remove a node with only a left child', () => {
+          bst.insert(100, 'first value');
+          bst.insert(20, 'second value');
+          bst.insert(4, 'four value');
+          bst.insert(40, 'fifth value');
+          bst.insert(3000, 'sixth value');
+          bst.insert(150, 'seventh value');
 
+          bst.delete(3000);
+          expect(bst.lookup(3000)).toBeUndefined();
         });
 
         it('can remove a node with only a right child', () => {
+          bst.insert(100, 'first value');
+          bst.insert(20, 'second value');
+          bst.insert(4, 'four value');
+          bst.insert(40, 'fifth value');
+          bst.insert(3000, 'sixth value');
+          bst.insert(150, 'seventh value');
+          bst.insert(45, 'seventh value');
 
+          bst.delete(40);
+          expect(bst.lookup(40)).toBeUndefined();
         });
 
         it('can remove a node with both children, where the successor is the node\'s right child', () => {
+          bst.insert(100, 'first value');
+          bst.insert(20, 'second value');
+          bst.insert(4, 'four value');
+          bst.insert(40, 'fifth value');
+          bst.insert(3000, 'sixth value');
+          bst.insert(45, 'seventh value');
 
+          bst.delete(100);
+          expect(bst._root.key).toBe(3000);
         });
 
         it('can remove a node with both children, where the successor is not the node\'s right child', () => {
+          bst.insert(100, 'first value');
+          bst.insert(20, 'second value');
+          bst.insert(4, 'four value');
+          bst.insert(40, 'fifth value');
+          bst.insert(3000, 'sixth value');
+          bst.insert(150, 'seventh value');
+          bst.insert(45, 'seventh value');
 
+          bst.delete(100);
+          expect(bst._root.key).toBe(150);
         });
       });
     });
