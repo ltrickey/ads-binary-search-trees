@@ -83,7 +83,7 @@ class BinarySearchTree {
       console.log("CURRENT TREE STRUCTURE");
       this.forEach((record, i) => {
         console.log(`Record ${i}: ${record.key} -> ${record.value}`);
-        console.log(`Record ${i} points to right:${record.right? record.right.key : 'ndad'} left:${record.left? record.left.key : 'Nada'}`);
+        console.log(`Record ${i} points to right:${record.right? record.right.key : 'undef'} left:${record.left? record.left.key : 'undef'}`);
       });
       //base case.  If node is empty or value not found, return.
       if (node === undefined) {

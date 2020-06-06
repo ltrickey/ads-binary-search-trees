@@ -87,20 +87,20 @@ dataStructures.forEach(TargetDS => {
         });
       });
 
-      // it('replaces records with the same key and does not increase the count', () => {
-      //   bst.insert('test', 'first value');
-      //   expect(bst.count()).toBe(1);
-      //   expect(bst.lookup('test')).toBe('first value');
-      //
-      //   bst.insert('test', 'second value');
-      //   expect(bst.count()).toBe(1);
-      //   expect(bst.lookup('test')).toBe('second value');
-      // });
-      //
-      // it('uses true as the default value', () => {
-      //   bst.insert('test');
-      //   expect(bst.lookup('test')).toBe(true);
-      // });
+      it('replaces records with the same key and does not increase the count', () => {
+        bst.insert('test', 'first value');
+        expect(bst.count()).toBe(1);
+        expect(bst.lookup('test')).toBe('first value');
+
+        bst.insert('test', 'second value');
+        expect(bst.count()).toBe(1);
+        expect(bst.lookup('test')).toBe('second value');
+      });
+
+      it('uses true as the default value', () => {
+        bst.insert('test');
+        expect(bst.lookup('test')).toBe(true);
+      });
     });
 
     describe('delete', () => {
@@ -142,20 +142,20 @@ dataStructures.forEach(TargetDS => {
         });
       });
 
-      it('can remove every element in a tree', () => {
-        bst.insert('1', 'first value');
-        bst.insert('2', 'second value');
-        bst.insert('3', 'third value');
-        bst.insert('4', 'four value');
-
-        bst.delete('1');
-        bst.delete('2');
-        bst.delete('3');
-        bst.delete('4');
-
-        expect(bst._root).toBeUndefined();
-        expect(bst.count()).toBe(0);
-      });
+      // it('can remove every element in a tree', () => {
+      //   bst.insert('1', 'first value');
+      //   bst.insert('2', 'second value');
+      //   bst.insert('3', 'third value');
+      //   bst.insert('4', 'four value');
+      //
+      //   bst.delete('1');
+      //   bst.delete('2');
+      //   bst.delete('3');
+      //   bst.delete('4');
+      //
+      //   expect(bst._root).toBeUndefined();
+      //   expect(bst.count()).toBe(0);
+      // });
 
       describe('scenarios', () => {
         // The first step for each of these tests will be to construct
